@@ -1,0 +1,52 @@
+services:
+
+  web:
+    build: ./web
+    container_name: python_censo
+    command: python app.py
+    volumes:
+      - ./web:/app
+      - ./Censo/Censo2022_Arquivos:/app/Censo/Censo2022_Arquivos
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - censo_network
+
+  db:
+    image: postgres:16
+    container_name: postgres_censo
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/censodump_1.sql:/docker-entrypoint-initdb.d/dump.sql
+      # - ./Censo/Censo2022.sql:/docker-entrypoint-initdb.d/censo2022.sql # Para iniciar o container com os dados do dump
+    networks:
+      - censo_network
+
+  # Fazer o dump sempre que rodar o docker compose
+  # dump_service:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: dump_censo
+  #   command: ["./wait-for-it.sh", "db:5432", "--", "python", "dump_db.py"]
+  #   volumes:
+  #     - .:/app
+  #     - ./dumps:/app/dumps
+  #   depends_on:
+  #     - db
+
+volumes:
+  postgres_data: {}
+
+# Criar network para conectar a containers criados separadamente (container do dump)
+networks:
+  censo_network:
+    name: censo_network

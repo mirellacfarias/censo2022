@@ -1,0 +1,23 @@
+services:
+
+  dump_service:
+    build: .
+    container_name: dump_censo
+    # command: python dump_db.py
+    volumes:
+      # - ./dump:/app
+      - .:/app
+      - ./volumes:/app/dumps
+      - ./web/connect_postgres.py:/app/connect_postgres.py
+    # depends_on:
+    #   - db
+    networks:
+      - censo_network
+
+networks:
+  censo_network:
+    external: true
+
+volumes:
+  postgres_data:
+    external: true
