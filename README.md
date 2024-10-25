@@ -4,7 +4,7 @@ Análise realizada com base no censo do IBGE de 2022
 ## Fonte dos dados:
 SIDRA - Sistema IBGE de Recuperação Automática - https://sidra.ibge.gov.br/
 
-## Trabalho:
+## Descrição:
 Devido à grande quantidade de dados e a limitação de download no site, foi necessário solicitar à SIDRA o envio dos arquivos, separados por raça para atender o limite de solicitação.
 <br>Após receber os dados, foi necessário trabalhá-los, desmesclando células, filtrando valores e ajustando as colunas de acordo com o que eu precisava para trabalhar.
 <br>Uni todos os dados em um dataframe, salvando-o inicialmente em arquivos excel e posteriormente em um dump da base de dados.
